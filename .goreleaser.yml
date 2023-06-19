@@ -18,24 +18,10 @@ builds:
       - -trimpath
     goos:
       - darwin
-      - freebsd
       - linux
-      - openbsd
-      - windows
     goarch:
-      - '386'
       - amd64
-      - arm
       - arm64
-    ignore:
-      - goarch: arm
-        goos: windows
-      - goarch: arm64
-        goos: freebsd
-      - goarch: arm64
-        goos: windows
-      - goarch: arm64
-        goos: openbsd
     ldflags:
       - -s -w -X 'github.com/hashicorp/terraform-provider-aws/version.ProviderVersion={{ .Version }}'
     mod_timestamp: '{{ .CommitTimestamp }}'
