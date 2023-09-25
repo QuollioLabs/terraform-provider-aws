@@ -584,9 +584,10 @@ func logicalTableMapSchema() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"data_set_arn": {
-							Type:     schema.TypeString,
-							Computed: true,
-							Optional: true,
+							Type:         schema.TypeString,
+							Computed:     true,
+							Optional:     true,
+							ValidateFunc: verify.ValidARN,
 						},
 						"join_instruction": {
 							Type:     schema.TypeList,
