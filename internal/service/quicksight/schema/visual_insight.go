@@ -28,7 +28,7 @@ func insightVisualSchema() *schema.Schema {
 					MaxItems: 1,
 					Elem: &schema.Resource{
 						Schema: map[string]*schema.Schema{
-							"computation": { // https://docs.aws.amazon.com/quicksight/latest/APIReference/API_Computation.html
+							"computations": { // https://docs.aws.amazon.com/quicksight/latest/APIReference/API_Computation.html
 								Type:     schema.TypeList,
 								Optional: true,
 								MinItems: 1,
@@ -296,7 +296,7 @@ func expandInsightConfiguration(tfList []interface{}) *quicksight.InsightConfigu
 
 	config := &quicksight.InsightConfiguration{}
 
-	if v, ok := tfMap["computation"].([]interface{}); ok && len(v) > 0 {
+	if v, ok := tfMap["computations"].([]interface{}); ok && len(v) > 0 {
 		config.Computations = expandComputations(v)
 	}
 	if v, ok := tfMap["custom_narrative"].([]interface{}); ok && len(v) > 0 {

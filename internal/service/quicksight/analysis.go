@@ -162,6 +162,10 @@ func resourceAnalysisCreate(ctx context.Context, d *schema.ResourceData, meta in
 		Tags:         getTagsIn(ctx),
 	}
 
+	if v, ok := d.Get("theme_arn").(string); ok && v != "" {
+		input.ThemeArn = aws.String(v)
+	}
+
 	if v, ok := d.GetOk("source_entity"); ok && len(v.([]interface{})) > 0 && v.([]interface{})[0] != nil {
 		input.SourceEntity = quicksightschema.ExpandAnalysisSourceEntity(v.([]interface{}))
 	}
@@ -224,6 +228,7 @@ func resourceAnalysisRead(ctx context.Context, d *schema.ResourceData, meta inte
 	d.Set("name", out.Name)
 	d.Set("status", out.Status)
 	d.Set("analysis_id", out.AnalysisId)
+	d.Set("theme_arn", out.ThemeArn)
 
 	descResp, err := conn.DescribeAnalysisDefinitionWithContext(ctx, &quicksight.DescribeAnalysisDefinitionInput{
 		AwsAccountId: aws.String(awsAccountId),
@@ -267,6 +272,10 @@ func resourceAnalysisUpdate(ctx context.Context, d *schema.ResourceData, meta in
 			AwsAccountId: aws.String(awsAccountId),
 			AnalysisId:   aws.String(analysisId),
 			Name:         aws.String(d.Get("name").(string)),
+		}
+
+		if v, ok := d.Get("theme_arn").(string); ok && v != "" {
+			in.ThemeArn = aws.String(v)
 		}
 
 		_, createdFromEntity := d.GetOk("source_entity")
